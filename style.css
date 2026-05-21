@@ -409,6 +409,20 @@ span {
     }
 }
 
+/* Attacked effect */
+.shake {
+    animation: shakeScreen 0.25s;
+}
+
+@keyframes shakeScreen {
+    0% { transform: translate(0); }
+    25% { transform: translate(-6px, 2px); }
+    50% { transform: translate(6px, -2px); }
+    75% { transform: translate(-4px, 2px); }
+    100% { transform: translate(0); }
+}
+
+
 /* ================ GAME OVER SCREEN ================ */
 
 #game-over-screen {
@@ -464,6 +478,21 @@ span {
     transform: scale(1.05);
 }
 
+/* FINAL SCORE STYLING */
+#game-over-screen p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
+
+#game-over-score {
+    color: #ff3b3b;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff0000, 0 0 25px rgba(255, 0, 0, 0.8);
+}
+
 
 /* ================ ENDING SCREEN ================ */
 
@@ -517,4 +546,18 @@ span {
     background-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 0 10px cyan, 0 0 30px cyan;
     transform: scale(1.05);
+}
+
+/* SHOW FINAL SCORE FOR WINNER */
+#win-screen p{
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+#win-score {
+    color: cyan;
+    font-weight: bold;
+    text-shadow: 0 0 10px cyan, 0 0 25px rgba(0, 255, 255, 0.8);
 }

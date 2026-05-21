@@ -70,10 +70,15 @@ const openingCuts = [
 
 let currentCut = 0;
 
+// Opening sound
+let openingSoundStarted = false;
+
 // Show cuts.
 function showOpeningCut() {
     openingImage.src = openingCuts[currentCut].image;
     openingText.innerHTML = openingCuts[currentCut].text;
+    // // Play Opening sound
+    // openingSound.play();
 }
 
 // When the page starts, show the first cut.
@@ -84,19 +89,20 @@ openingImage.style.animationDuration = '6s';
 
 // Cut #6 white-fade
 const whiteFade = document.querySelector('#white-fade');
-function nextOpeningCut() {
-    currentCut++;
-    if (currentCut >= openingCuts.length) {
-        whiteFade.classList.add('fade-active');
+// function nextOpeningCut() {
+//     currentCut++;
+//     if (currentCut >= openingCuts.length) {
+//         whiteFade.classList.add('fade-active');
 
-        setTimeout(() => {
-            showIntroScreen();
-        }, 2000);
+//         setTimeout(() => {
+//             showIntroScreen();
+//         }, 2000);
 
-        return;
-    }
-    showOpeningCut();
-}
+//         return;
+//     }
+
+//     showOpeningCut();
+// }
 
 
 
@@ -112,6 +118,11 @@ const skipOpeningBtn = document.querySelector('#skip-opening-btn');
 skipOpeningBtn.addEventListener('click', nextOpeningCut);
 
 function nextOpeningCut() {
+    // Opening sound play
+    if (!openingSoundStarted) {
+        openingSound.play();
+        openingSoundStarted = true;
+    }
     currentCut++;
 
     if (currentCut >= openingCuts.length) {
@@ -122,8 +133,15 @@ function nextOpeningCut() {
 }
 
 function showIntroScreen() {
+    // Pause Openign Sound
+    openingSound.pause();
+    openingSound.currentTime = 0;
+
     openingScreen.style.display = 'none';
     introScreen.style.display = 'flex';
+
+    // Play Intro sound
+    introSound.play();
 }
 
 // Stop the game when it gameovers.
@@ -142,9 +160,15 @@ let rightPressed = false;
 // Click START button and the screen will be changed to GameBoard.
 startBtn.addEventListener('click', startGame);
 function startGame() {
+    // Pause intro sound
+    introSound.pause();
+    introSound.currentTime = 0;
+
     introScreen.style.display = 'none';
     gameBoard.style.display = 'block';
     gameRunning = true;
+    // // Play background music
+    // bgm.play();
 }
 
 
@@ -174,7 +198,7 @@ let life = maxLife;
 // WIN SCREEN
 const winScreen = document.querySelector('#win-screen');
 const playAgainBtn = document.querySelector('#play-again-btn');
-const winScore = 500; // adjusting winning score.
+const winScore = 500; // adjusting and testing winning score.
 
 // Scoring
 const lifeElement = document.querySelector('#life');
@@ -184,6 +208,10 @@ let score = 0;
 
 const player = document.querySelector('#player');
 let playerEle = 50;
+
+// Final score
+const gameOverScore = document.querySelector('#game-over-score');
+const winScoreElement = document.querySelector('#win-score');
 
 // Connect with Keydown for user.
 document.addEventListener('keydown', handleKeyDown);
@@ -244,6 +272,10 @@ function shootBullet(event) {
     if (!canShoot) {
         return;
     }
+
+    // Laser sound effect
+    laserSound.currentTime = 0;
+    laserSound.play();
 
     canShoot = false;
 
@@ -308,7 +340,6 @@ function shootBullet(event) {
         canShoot = true;
     }, 200);
 }
-
 
 
 /* ===================== ENEMY ===================== */
@@ -393,6 +424,12 @@ function checkCollision(enemy) {
         life--;
         lifeFill.style.width = (life / maxLife) * 100 + '%';
 
+        // GET ATTACKED
+        gameBoard.classList.add('shake');
+        setTimeout(() => {
+            gameBoard.classList.remove('shake');
+        }, 250);
+
         if (life <= 0) {
             gameOver();
         }
@@ -418,6 +455,10 @@ function createHitEffect(x, y) {
     setTimeout(() => {
         effect.remove();
     }, 200);
+
+    // Hitting sound effect
+    hitSound.currentTime = 0;
+    hitSound.play();
 }
 
 /* ===================== GAMEOVER ===================== */
@@ -428,7 +469,12 @@ function gameOver() {
     // console.log('Game stopped');
     gameRunning = false;
     gameBoard.style.display = 'none';
+    gameOverScore.textContent = score; // Show final score
     gameOverScreen.style.display = 'flex';
+
+    // Gameoversound
+    bgm.pause();
+    gameOverSound.play();
 }
 
 // Connect to Restart button.
@@ -444,7 +490,31 @@ function restartGame() {
 function winGame() {
     gameRunning = false;
     gameBoard.style.display = 'none';
+    winScoreElement.textContent = score; // Show final score
     winScreen.style.display = 'flex';
+
+    // Winning sound
+    bgm.pause();
+    winSound.play();
 }
 
 playAgainBtn.addEventListener('click', restartGame);
+
+
+/* ===================== SOUNDS ===================== */
+const laserSound = new Audio('./assets/sounds/laser.mp3');
+const hitSound = new Audio('./assets/sounds/hit.mp3');
+const gameOverSound = new Audio('./assets/sounds/gameover.mp3');
+const winSound = new Audio('./assets/sounds/win.mp3');
+const bgm = new Audio('./assets/sounds/bgm.mp3');
+const openingSound = new Audio('./assets/sounds/opening.mp3');
+const introSound = new Audio('./assets/sounds/intro.mp3');
+
+openingSound.loop = true;
+openingSound.volume = 0.4;
+
+introSound.loop = true;
+introSound.volume = 0.4;
+
+// bgm.loop = true;
+// bgm.volume = 0.4;
