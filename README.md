@@ -30,7 +30,7 @@ The player controls a HIO bio-robot and must survive endless enemy attacks in de
 - Restart / Play again button
 
 
-## MVP (Mimimum Viable Product)
+## MVP (Minimum Viable Product)
 
 - Player movement using keyboard controls
 - Enemy spawning system
