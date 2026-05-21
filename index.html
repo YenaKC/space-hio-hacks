@@ -26,7 +26,7 @@
     <!-- INTRO SCREEN -->
     <div id="intro-screen">
         <!-- <h1>space hio hacks</h1> -->
-         <img src="./assets/images/logo-spacehio.png" alt="SPACE HIO HACKS" id="game-logo">
+        <img src="./assets/images/logo-spacehio.png" alt="SPACE HIO HACKS" id="game-logo">
         <p class="intro-desc">year 2626...</p>
         <button id="start-btn">start mission</button>
     </div>
@@ -36,7 +36,14 @@
 
         <div id="stat-hud">
             <span>score: <span id="score">0</span></span>
-            <span>life: <span id="life">15</span></span>
+            <!-- <span>life: <span id="life">15</span></span> -->
+            <div class="life-wrapper">
+                <span>Life</span>
+                <div class="life-bar">
+                    <div id="life-fill"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="player"></div>
@@ -46,7 +53,7 @@
     <!-- GAME OVER SCREEN -->
     <div id="game-over-screen">
         <h1>game over</h1>
-        <button id="restart-btn">restart</button>
+        <button id="restart-btn">retry</button>
     </div>
 
     <script src="script.js"></script>

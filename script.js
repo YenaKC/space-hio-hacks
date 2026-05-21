@@ -166,9 +166,14 @@ for (let i = 0; i < 50; i++) {
 
 /* ===================== PLAYER ===================== */
 
+// Life Hud
+const lifeFill = document.querySelector('#life-fill');
+const maxLife = 15;
+let life = maxLife;
+
 // Scoring
 const lifeElement = document.querySelector('#life');
-let life = 15;
+// let life = 15;
 const scoreElement = document.querySelector('#score');
 let score = 0;
 
@@ -378,7 +383,7 @@ function checkCollision(enemy) {
     ) {
         console.log('Hit!');
         life--;
-        lifeElement.textContent = life;
+        lifeFill.style.width = (life / maxLife) * 100 + '%';
 
         if (life <= 0) {
             gameOver();
@@ -413,7 +418,7 @@ function gameOver() {
     // console.log('Game stopped');
     gameRunning = false;
     gameBoard.style.display = 'none';
-    gameOverScreen.style.display = 'block';
+    gameOverScreen.style.display = 'flex';
 }
 
 // Connect to Restart button.
