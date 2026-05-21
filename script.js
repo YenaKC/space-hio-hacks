@@ -171,6 +171,11 @@ const lifeFill = document.querySelector('#life-fill');
 const maxLife = 15;
 let life = maxLife;
 
+// WIN SCREEN
+const winScreen = document.querySelector('#win-screen');
+const playAgainBtn = document.querySelector('#play-again-btn');
+const winScore = 500; // adjusting winning score.
+
 // Scoring
 const lifeElement = document.querySelector('#life');
 // let life = 15;
@@ -286,6 +291,9 @@ function shootBullet(event) {
                 bullet.remove();
                 score++;
                 scoreElement.textContent = score;
+                if (score >= winScore) {
+                    winGame();
+                }
 
                 // Increasing enemy speed getting scores.
                 enemySpeed = 1 + Math.sqrt(score) * 0.2;
@@ -412,6 +420,8 @@ function createHitEffect(x, y) {
     }, 200);
 }
 
+/* ===================== GAMEOVER ===================== */
+
 // Gameover
 const gameOverScreen = document.querySelector('#game-over-screen');
 function gameOver() {
@@ -427,3 +437,14 @@ restartBtn.addEventListener('click', restartGame);
 function restartGame() {
     location.reload();
 }
+
+
+/* ===================== ENDGAME ===================== */
+
+function winGame() {
+    gameRunning = false;
+    gameBoard.style.display = 'none';
+    winScreen.style.display = 'flex';
+}
+
+playAgainBtn.addEventListener('click', restartGame);
