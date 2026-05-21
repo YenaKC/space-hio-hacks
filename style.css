@@ -1,3 +1,22 @@
+/* ===================== GLOBAL ===================== */
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+button {
+    text-transform: uppercase;
+}
+
+
 /* ===================== OPENING SCREEN ===================== */
 
 #opening-screen {
@@ -16,24 +35,57 @@
     animation: slowZoom 8s ease-in-out infinite alternate;
 }
 
+/* CUT1 */
+#first-verb {
+    text-transform: uppercase;
+}
+
 #opening-text {
     position: absolute;
     bottom: 12vh;
     left: 8vw;
     max-width: 550px;
+    color: #fff;
+    text-transform: unset;
 
     text-shadow: 0 0 10px #000;
 }
 
-#next-opening-btn {
+#skip-opening-btn {
     position: absolute;
     right: 8vw;
     bottom: 8vh;
 
-    padding: 12px 28px;
-    background-color: cyan;
-    border: none;
+    padding: 12px 32px;
+    
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+
+    border: 1px solid rgba(0, 255, 255, 0.35);
+    border-radius: 999px;
+
     cursor: pointer;
+    letter-spacing: 2px;
+
+    box-shadow: none;
+
+    transition:
+        color 0.4s ease,
+        background-color 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.4s ease;
+}
+
+#skip-opening-btn:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
+
+    border-color: cyan;
+
+    box-shadow: 
+    0 0 10px cyan,
+    0 0 25px rgba(0, 255, 255, 0.8);
 }
 
 @keyframes slowZoom {
@@ -46,34 +98,102 @@
     }
 }
 
+/* CUT2 */
+.highlight-word {
+    color: cyan;
+    font-size: 2rem;
+    letter-spacing: 4px;
 
-/* ===================== GLOBAL ===================== */
-
-body {
-    margin: 0;
-    padding: 0;
-    color: #000;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    text-shadow: 
+    0 0 10px cyan,
+    0 0 25px cyan;
 }
 
-h1 {
+#highlight-yosea {
     text-transform: uppercase;
 }
 
-button {
+#opening-image {
+    animation: slowZoom 12s ease-in-out infinite alternate;
+}
+
+#opening-text {
+    animation: fadeText 2s ease;
+}
+
+@keyframes fadeText {
+    from {
+        opacity: 0s;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* CUT #3 */
+#highlight-honran {
     text-transform: uppercase;
+}
+
+/* CUT #4 */
+#highlight-suho {
+    text-transform: uppercase;
+}
+
+/* CUT #6 white fade */
+#white-fade {
+    position: fixed;
+    inset: 0;
+
+    background: #fff;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 9999;
+}
+
+.fade-active {
+    animation: whiteFade 2s forwards;
+}
+
+@keyframes whiteFade {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 
 /* ================== INTRO SCREEN ================== */
 
+/* INTRO SCREEN BACKGROUND */
 #intro-screen {
-    text-align: center; 
-    display: none;;
+    width: 100%;
+    height: 100vh;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)), url('./assets/images/intro-bg.png');
+
+    background-size: cover;
+    background-position: center;
+    
+    display: none;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
 }
 
 #intro-screen h1 {
@@ -85,11 +205,54 @@ button {
     opacity: 0.7;
 }
 
+/* START BUTTON STYLING */
 #start-btn {
-    margin-top: 20px;
-    padding: 12px 24px;
-    background: cyan;
+    margin-top: 30px;
+    padding: 14px 40px;
+
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+
+    border: 1px solid rgba(0, 255, 255, 0.35);
+    border-radius: 999px;
+
+    letter-spacing: 3px;
+
     cursor: pointer;
+
+    transition: 0.4s ease;
+}
+
+#start-btn:hover {
+    color: #fff;
+
+    border-color: cyan;
+
+    background-color: rgba(255, 255, 255, 0.08);
+
+    box-shadow: 0 0 10px cyan, 0 0 30px cyan;
+
+    transform: scale(1.05);
+}
+
+/* GAME LOGO HOME SCREEN */
+#game-logo {
+    width: 32vw;
+    max-width: 520px;
+
+    filter: drop-shadow(0 0 15px cyan);
+
+    animation: logoFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes logoFloat {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
 }
 
 
@@ -184,12 +347,12 @@ span {
 @keyframes hitFlash {
     0% {
         opacity: 1;
-        transform: translate(-50%, -50%), scale(0.5);
+        transform: translate(-50%, -50%) scale(0.5);
     }
 
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%), scale(1.5);
+        transform: translate(-50%, -50%) scale(1.5);
     }
 }
 

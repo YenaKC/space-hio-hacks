@@ -1,17 +1,129 @@
+/* ================== OPENING SCREEN ================== */
+const openingImage = document.querySelector('#opening-image');
+const openingText = document.querySelector('#opening-text');
+
+// Order the cuts #1 #2 #3 #4 #5 #6.
+const openingCuts = [
+    {
+        image: './assets/images/cut1-earth.png',
+        text: `
+            <p id="first-verb">year 2026,</p>
+            <p>Earth is no longer habitable.</p>
+            <p>The last survivors of humanity wander through deep space, searching for a new home.</p>
+        `
+    },
+    {
+        image: './assets/images/cut2-yosea.png',
+        text: `
+            <p>Humanity discovered</p>
+            <p>One final posibility.</p>
+
+            <p class="highlight-word" id="highlight-yosea">yosea.</p>
+            <p>within the NGC 1052-DF2 galaxy.</p>
+            <p>The last hope for mankind.</p>
+        `
+    },
+    {
+        image: './assets/images/cut3-honran.png',
+        text: `
+            <p>But humanity was not alone.</p>
+            <p>Ancient entities already ruled the path to YOSEA.</p>
+            <p class="highlight-word" id="highlight-honran">honran.</p>
+            <p>Biomechanical organisms that evolved beyond human understanding.</p>
+        `
+    },
+    {
+        image: './assets/images/cut4-suhohack.png',
+        text: `
+            <p>Humanity answered with</p>
+            <p>its final creation.</p>
+
+            <p class="highlight-word" id="highlight-suho">suho hack.</p>
+            <p>An immortal biomechanical weapon</p>
+            <p>built to resist Honran</p>
+            <p>and guide mankind to YOSEA.</p>
+        `
+    },
+    {
+        image: './assets/images/cut6-goal.png',
+        text: `
+            <p>Can humanity survive...</p>
+
+            <p>before HONRAN evolves again?</p>
+
+            <p class="highlight-word">Destination: YOSEA</p>
+        `
+    },
+    {
+        image: './assets/images/cut5-war.png',
+        text: `
+            <p>The war has begun.</p>
+
+            <p>But HONRAN continues</p>
+            <p>to evolve faster than expected.</p>
+
+            <p>Humanity's fate now rests</p>
+            <p>on SUHO HACK.</p>
+        `
+    }
+];
+
+let currentCut = 0;
+
+// Show cuts.
+function showOpeningCut() {
+    openingImage.src = openingCuts[currentCut].image;
+    openingText.innerHTML = openingCuts[currentCut].text;
+}
+
+// When the page starts, show the first cut.
+showOpeningCut();
+
+// Increasing zoom speed.
+openingImage.style.animationDuration = '6s';
+
+// Cut #6 white-fade
+const whiteFade = document.querySelector('#white-fade');
+function nextOpeningCut() {
+    currentCut++;
+    if (currentCut >= openingCuts.length) {
+        whiteFade.classList.add('fade-active');
+
+        setTimeout(() => {
+            showIntroScreen();
+        }, 2000);
+
+        return;
+    }
+    showOpeningCut();
+}
+
+
+
 /* ================== INTRO SCREEN ================== */
 
 const startBtn = document.querySelector('#start-btn');
 const introScreen = document.querySelector('#intro-screen');
 const gameBoard = document.querySelector('#game-board');
 const openingScreen = document.querySelector('#opening-screen');
-const nextOpeningBtn = document.document.querySelector('#next-opening-btn');
+const skipOpeningBtn = document.querySelector('#skip-opening-btn');
 
 // Opening cut skip
-nextOpeningBtn.addEventListener('click', showIntroScreen);
+skipOpeningBtn.addEventListener('click', nextOpeningCut);
+
+function nextOpeningCut() {
+    currentCut++;
+
+    if (currentCut >= openingCuts.length) {
+        showIntroScreen();
+        return;
+    }
+    showOpeningCut();
+}
 
 function showIntroScreen() {
     openingScreen.style.display = 'none';
-    introScreen.style.display = 'block';
+    introScreen.style.display = 'flex';
 }
 
 // Stop the game when it gameovers.
@@ -291,7 +403,7 @@ function createHitEffect(x, y) {
     gameBoard.appendChild(effect);
 
     setTimeout(() => {
-       effect.remove(); 
+        effect.remove();
     }, 200);
 }
 
