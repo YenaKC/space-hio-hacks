@@ -3,6 +3,16 @@
 const startBtn = document.querySelector('#start-btn');
 const introScreen = document.querySelector('#intro-screen');
 const gameBoard = document.querySelector('#game-board');
+const openingScreen = document.querySelector('#opening-screen');
+const nextOpeningBtn = document.document.querySelector('#next-opening-btn');
+
+// Opening cut skip
+nextOpeningBtn.addEventListener('click', showIntroScreen);
+
+function showIntroScreen() {
+    openingScreen.style.display = 'none';
+    introScreen.style.display = 'block';
+}
 
 // Stop the game when it gameovers.
 let gameRunning = false;
@@ -26,11 +36,27 @@ function startGame() {
 }
 
 
+/* ===================== GAMEBOARD ===================== */
+function createStar() {
+    const star = document.createElement('div');
+    star.classList.add('star');
+
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.top = Math.random() * 100 + 'vh';
+
+    gameBoard.appendChild(star);
+}
+
+for (let i = 0; i < 50; i++) {
+    createStar();
+}
+
+
 /* ===================== PLAYER ===================== */
 
 // Scoring
 const lifeElement = document.querySelector('#life');
-let life = 3;
+let life = 15;
 const scoreElement = document.querySelector('#score');
 let score = 0;
 
@@ -77,39 +103,12 @@ function updatePlayerMovement(params) {
         playerEle = 5;
     }
 
-    if (playerEle >95) {
-        playerEle = 95;
-    }
-
-    player.style.left = playerEle + 'vw';
-}
-
-
-/*
-
-document.addEventListener('keydown', movePlayer);
-function movePlayer(event) {
-    if (event.key === 'ArrowLeft') {
-        playerEle -= 2;
-    }
-
-    if (event.key === 'ArrowRight') {
-        playerEle += 2;
-    }
-
-    // Boundary
-    if (playerEle < 5) {
-        playerEle = 5;
-    }
-
     if (playerEle > 95) {
         playerEle = 95;
     }
 
     player.style.left = playerEle + 'vw';
 }
-
-*/
 
 // Shooting bullet
 
@@ -131,7 +130,7 @@ function shootBullet(event) {
 
     // Positioning bullet
     bullet.style.left = playerEle + 'vw';
-    bullet.style.bottom = '10vh';
+    bullet.style.bottom = '12vh';
 
     // Add bullet to Gameboard
     gameBoard.appendChild(bullet);
@@ -139,7 +138,7 @@ function shootBullet(event) {
     // Bullet movement
     let bulletEle = 10;
     const bulletMove = setInterval(() => {
-        bulletEle += 2;
+        bulletEle += 3;
         bullet.style.bottom = bulletEle + 'vh';
 
         // Boundary of screen for bullet
@@ -159,13 +158,20 @@ function shootBullet(event) {
                 bulletRect.top < enemyRect.bottom &&
                 bulletRect.bottom > enemyRect.top
             ) {
+                // Hitting effect for enemies
+                createHitEffect(
+                    enemyRect.left + enemyRect.width / 2 - 5,
+                    enemyRect.top + enemyRect.height / 2 - 5
+                );
+
+                // Result of the hit
                 enemy.remove();
                 bullet.remove();
                 score++;
                 scoreElement.textContent = score;
 
                 // Increasing enemy speed getting scores.
-                enemySpeed = 1 + score * 0.1;
+                enemySpeed = 1 + Math.sqrt(score) * 0.2;
 
                 clearInterval(bulletMove);
             }
@@ -175,7 +181,7 @@ function shootBullet(event) {
     // Shooting bullet more cooldowned.
     setTimeout(() => {
         canShoot = true;
-    }, 300);
+    }, 200);
 }
 
 
@@ -237,27 +243,57 @@ function checkCollision(enemy) {
     const playerRect = player.getBoundingClientRect();
     const enemyRect = enemy.getBoundingClientRect();
 
-    // Condition for collision.
+    // Range for shooting and player attacked. If not adjust, be attacked above the range of the player body.
+    const playerHitbox = {
+        left: playerRect.left + playerRect.width * 0.25,
+        right: playerRect.right - playerRect.width * 0.25,
+        top: playerRect.top + playerRect.height * 0.25,
+        bottom: playerRect.bottom - playerRect.height * 0.25
+    };
+
+    const enemyHitbox = {
+        left: enemyRect.left + enemyRect.width * 0.2,
+        right: enemyRect.right - enemyRect.width * 0.2,
+        top: enemyRect.top + enemyRect.height * 0.2,
+        bottom: enemyRect.bottom - enemyRect.height * 0.2
+    };
+
     if (
-        playerRect.left < enemyRect.right &&
-        playerRect.right > enemyRect.left &&
-        playerRect.top < enemyRect.bottom &&
-        playerRect.bottom > enemyRect.top
+        playerHitbox.left < enemyHitbox.right &&
+        playerHitbox.right > enemyHitbox.left &&
+        playerHitbox.top < enemyHitbox.bottom &&
+        playerHitbox.bottom > enemyHitbox.top
     ) {
-        // Score counting after the collision.
         console.log('Hit!');
         life--;
         lifeElement.textContent = life;
-        // Condition for gameover.
+
         if (life <= 0) {
             gameOver();
         }
+
         enemy.remove();
         return true;
     }
+
     return false;
 }
 
+// Hitting effect
+function createHitEffect(x, y) {
+    const effect = document.createElement('div');
+
+    effect.classList.add('hit-effect');
+
+    effect.style.left = x + 'px';
+    effect.style.top = y + 'px';
+
+    gameBoard.appendChild(effect);
+
+    setTimeout(() => {
+       effect.remove(); 
+    }, 200);
+}
 
 // Gameover
 const gameOverScreen = document.querySelector('#game-over-screen');

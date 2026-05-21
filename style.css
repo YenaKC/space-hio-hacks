@@ -1,3 +1,52 @@
+/* ===================== OPENING SCREEN ===================== */
+
+#opening-screen {
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+#opening-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.75;
+    animation: slowZoom 8s ease-in-out infinite alternate;
+}
+
+#opening-text {
+    position: absolute;
+    bottom: 12vh;
+    left: 8vw;
+    max-width: 550px;
+
+    text-shadow: 0 0 10px #000;
+}
+
+#next-opening-btn {
+    position: absolute;
+    right: 8vw;
+    bottom: 8vh;
+
+    padding: 12px 28px;
+    background-color: cyan;
+    border: none;
+    cursor: pointer;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+
 /* ===================== GLOBAL ===================== */
 
 body {
@@ -24,7 +73,7 @@ button {
 
 #intro-screen {
     text-align: center; 
-    /* display: block; */
+    display: none;;
 }
 
 #intro-screen h1 {
@@ -49,7 +98,9 @@ button {
 #game-board {
     width: 100%;
     height: 100%;
-    background: #111;
+
+    background: linear-gradient(to bottom, #061022, #0b1633);
+
     position: relative;
     overflow: hidden;
     display: none;
@@ -60,38 +111,87 @@ span {
     text-transform: capitalize;
 }
 
+.star {
+    width: 2px;
+    height: 2px;
+    background-color: #fff;
+    position: absolute;
+    border-radius: 50%;
+}
+
 
 /* ===================== PLAYER ===================== */
 
 #player {
-    width: 10vw;
-    height: 10vh;
-    background-color: orange;
+    width: 12vw;
+    height: 14vh;
 
     position: absolute;
     bottom: 2vh;
     left: 50%;
-    transform: translate(-50%);
+    transform: translate(-50%) rotate(-270deg);
+
+    background-image: url('./assets/images/player.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* glow */
+    filter: drop-shadow(0 0 14px cyan) brightness(1.6);
 }
 
 /* Enemy Styling */
 .enemy {
-    width: 5vw;
-    height: 5vh;
-    background-color: red;
+    width: 8vw;
+    height: 10vh;
     position: absolute;
+
+    background-image: url('./assets/images/enemy.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* Brightness for enemy */
+    filter: brightness(1.4);
 }
 
 /* Styling bullet */
 .bullet {
-    width: 1vw;
-    height: 3vh;
+    width: 0.6vw;
+    height: 8vh;
 
-    background-color: cyan;
+    background: linear-gradient(to top, cyan, #fff);
+    box-shadow: 0 0 10px cyan, 0 0 20px cyan;
 
+    border-radius: 999px;
     position: absolute;
 }
 
+/* Hitting effect */
+.hit-effect {
+    width: 3vw;
+    height: 3vh;
+
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px cyan;
+    transform-origin: center; /* centralizing */
+    animation: hitFlash 0.2s forwards;
+}
+
+/* Animation for hit-effect from small exploision to big explosion fading-out */
+@keyframes hitFlash {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%), scale(0.5);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%), scale(1.5);
+    }
+}
 
 /* ================ GAME OVER SCREEN ================ */
 
@@ -100,4 +200,5 @@ span {
     background-color: #000;
     color: #fff;
     text-align: center;
+    background-color: #799889;
 }
