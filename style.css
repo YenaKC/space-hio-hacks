@@ -82,9 +82,22 @@ span {
     position: absolute;
 }
 
+/* Styling bullet */
+.bullet {
+    width: 1vw;
+    height: 3vh;
+
+    background-color: cyan;
+
+    position: absolute;
+}
+
 
 /* ================ GAME OVER SCREEN ================ */
 
 #game-over-screen {
     display: none;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
 }
