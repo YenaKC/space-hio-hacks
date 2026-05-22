@@ -198,7 +198,7 @@ let life = maxLife;
 // WIN SCREEN
 const winScreen = document.querySelector('#win-screen');
 const playAgainBtn = document.querySelector('#play-again-btn');
-const winScore = 500; // adjusting and testing winning score.
+const winScore = 10; // adjusting and testing winning score.
 
 // Scoring
 const lifeElement = document.querySelector('#life');
